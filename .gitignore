@@ -1,0 +1,14 @@
+/www/site1/node_modules
+/www/site1/public/storage
+/www/site1/vendor
+/www/site1/.idea
+/www/site1Homestead.json
+/www/site1Homestead.yaml
+/www/site1.env
+/www/site1/public/css
+/www/site1/public/js
+/www/site1/public/fonts
+/www/site1/public/mix-manifest.json
+/www/site1npm-debug.log
+/mysql
+/log
