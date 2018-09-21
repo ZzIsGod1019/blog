@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title"><a href="{$action_link.href}" class="s-back">{$lang.back}</a>权限 - {$ur_here}</div>
+            <div class="content">
+            <div class="explanation" id="explanation">
+                <div class="ex_tit"><i class="sc_icon"></i><h4>{$lang.operating_hints}</h4><span id="explanationZoom" title="{$lang.fold_tips}"></span></div>
+                <ul>
+                    <li>客服隶属于管理员下级的角色，请注意勾选管理员。</li>
+                    <li>{$lang.operation_prompt_content_common}</li>
+                </ul>
+            </div>
+            <div class="flexilist">
+                <div class="mian-info">
+                    <form method="post" action="services.php" name="theForm" enctype="multipart/form-data">
+                        <div class="switch_info user_basic" style="display:block;">
+                            <div class="item">
+                                <div class="label">客服昵称：</div>
+                                <div class="label_value">
+                                    <input type="text" name='services_name' class="text" autocomplete="off" value="{$customer.nick_name}" />
+                                    <div class="form_prompt"></div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="label">业务描述：</div>
+                                <div class="label_value">
+                                    <textarea class="textarea" name="services_desc">{$customer.post_desc}</textarea>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="label">负责人员：</div>
+                                <div class="label_value">
+                                    <div class="checkbox_items">
+                                        {foreach from=$admin_list item=admin}
+                                        <div class="checkbox_item">
+                                            <input type="radio" value="{$admin.user_id}" name="services" class="ui-checkbox" id="checked_{$admin.user_id}" {if $customer.user_id == $admin.user_id}checked{/if}  />
+                                            <label for="checked_{$admin.user_id}" class="ui-label">{$admin.user_name}</label>
+                                        </div>
+                                        {/foreach}
+                                        <div class="notic m20">{$lang.notice_admins}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="label">&nbsp;</div>
+                                <div class="label_value info_btn mt0">
+                                    <a href="javascript:;" class="button" id="submitBtn">{$lang.button_submit}</a>
+                                    <input type="hidden" name="act" value="{$form_action}" />
+                                    <input type="hidden" name="id" value="{$id}" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+ {include file ='library/pagefooter.lbi'}
+    <script type="text/javascript" src="js/region.js"></script>
+    <script type="text/javascript">
+    $('#submitBtn').click(function(){
+        $('form[name=theForm]').submit();
+    });
+    </script>
+</body>
+</html>

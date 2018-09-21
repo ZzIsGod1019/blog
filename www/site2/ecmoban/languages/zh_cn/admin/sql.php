@@ -1,0 +1,12 @@
+<?php
+/*QQ:2172298892  瑾梦网络  禁止倒卖 一经发现停止任何服务https://www.dscmall.cn*/
+$_LANG['title'] = '运行 SQL 查询';
+$_LANG['error'] = '出错了';
+$_LANG['succeed'] = 'SQL 语句已成功运行';
+$_LANG['no_data'] = '返回结果为空';
+$_LANG['note'] = '执行SQL将直接操作数据库，请谨慎使用';
+$_LANG['query'] = '提交查询';
+$_LANG['no_data'] = '返回结果为空';
+$_LANG['js_languages']['sql_not_null'] = 'SQL语句为空';
+
+?>

@@ -1,0 +1,87 @@
+{include file="page_header"}
+		<div class="con">
+			<div class="flow-coupon">
+				<div class="hd tab-title j-tab-title  b-color-f nav-header">
+					<ul class="dis-box">
+						<li class="box-flex active"><a href="#">未使用({$status.one})</a></li>
+						<li class="box-flex"><a href="#">已使用({$status.two})</a></li>
+						<li class="box-flex"><a href="#">已过期({$status.three})</a></li>
+					</ul>
+				</div>
+				<div id="j-tab-con">
+					<div class="swiper-wrapper">
+						<section class="swiper-slide swiper-no-swiping ">
+							<ul class="padding-all  bonus-list">
+							<script id="j-bonus" type="text/html">                                         
+                            <%if bonus !=''%>
+								<%each bonus as key%>
+									<li class="new-coupons-box bonus-select-box <%if key.bonus_status == 1 %> bonus_status_end <%/if%> <%if key.bonus_status == 3 %> bonus_status_data_end <%/if%> ">
+                                        <div class="cont dis-box">
+                                            <div class="bonus-left">
+                                                <div class="img-box">
+ 													<!--未使用-->
+                                                    <img class="bonus_ing" src="{elixir('img/new_bonus.png')}" />
+                                                    <!--已使用/已过期-->
+                                                    <img class="bonus_end" src="{elixir('img/new_bonus_active.png')}" />
+                                                </div>
+                                            </div>
+                                            <div class="box-flex">
+                                                <h4 class="f-06 color-whie"><em>¥</em><strong class="coupons-money"><%key.type_money%></strong></h4>
+                                                <p class="f-02 color-whie m-top02"><%key.type_name%></p>
+                                                <p class="f-02 color-whie m-top02">限 <%key.rz_shopName%> 可用</p>
+                                            </div>
+                                        </div>
+                                        <div class="time b-color-f col-7 f-02">红包期限：<%key.use_startdate%> 至 <%key.use_enddate%></div>
+                                        <!--已使用-->
+                                        <img class="bonus_tag_end icon_box" src="{elixir('img/coupons-print_end.png')}" />
+                                        <!--已过期-->
+                                        <img class="bonus_data_end icon_box" src="{elixir('img/coupons-print_dataend.png')}" />
+                                     </li>
+	                              <%/each%>
+                                  <%else%>
+	                                  <div class="no-div-message">
+	                                        <i class="iconfont icon-biaoqingleiben"></i>
+	                                        <p>亲，还没有红包哦～！</p>
+	                                  </div>
+                                  <%/if%>
+							</script>
+							</ul>
+						</section>
+					</div>
+			</div>
+                <div class="user-coupon-add  filter-btn">
+                    <a href="{url('add_bonus')}" type="button" class="btn-submit">添加优惠券/红包</a>
+
+                </div>
+		</div>
+		<!--引用js-->
+      <!--快捷导航-->
+    {include file="float_nav"} 
+                <li>
+                    <a href="{url('user/account/index')}">
+                         <i class="iconfont icon-money"></i>
+                         <p>资金管理</p>
+                    </a> 
+                </li>                
+    {include file="float_nav_footer"} 
+		<script>
+			$(".bonus-list").css("margin-top",$(".nav-header").outerHeight())
+			var url = ROOT_URL + 'index.php?m=user&c=account&a=bonus';
+			var infinite = $('.bonus-list').infinite({url: url, template:'j-bonus'});
+
+			$(".j-tab-title li").on('touchstart mousedown', function(e) {
+				e.preventDefault();
+				$(".j-tab-title .active").removeClass('active');
+				$(this).addClass('active');
+
+				//切换选项卡
+				infinite.onload(url + '&type=' + $(this).index());
+			});
+			$(".j-tab-title li").click(function(e) {
+				e.preventDefault()
+			})
+
+		</script>
+	</body>
+	
+</html>

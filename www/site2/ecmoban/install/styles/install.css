@@ -1,0 +1,118 @@
+html, body, div, ul, ol, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, fieldset, input,img{ padding: 0;margin: 0;}
+body{ font:12px/150% "microsoft yahei";}
+a{ text-decoration:none; color: #666;}
+ul,ol{ list-style:none;}
+em, i, u { font-style: normal;}
+input{ outline:0;}
+
+.green{ color:#099e60;}
+.yellow{ color:#bba438;}
+
+
+.header-wrapper{ width:100%; height:auto; border-bottom:2px solid #ec5150; background-color:#fff;}
+.header{ width:1000px; margin:0 auto; overflow:hidden;}
+.header .logo{ width:400px; height:68px; float:left;}
+.wrapper{ width:100%; height:100%; background:url(../images/install_bg.jpg) repeat;overflow:hidden;}
+.w1000{ width:1000px; margin:0 auto;}
+.attention{ width:100%; height:70px;}
+.attention p{ float:left; margin-top:40px; margin-left:150px;}
+.attention .info{ color:#666;}
+.attention a{ color:#ec5051;}
+.attention a:hover{ text-decoration:underline;}
+
+.content{ width:1000px; overflow:hidden; padding-top: 5px; padding-bottom:60px;}
+.content .tab{ width:50px; height:auto; float:left; position:relative;z-index:1000;}
+.content .tab .step{ width:45px; height:120px; background:url(../images/step_install.png) no-repeat; float:left;}
+.content .tab .step .warp{ width:25px; height:auto; font-size:16px; color:#fff; padding:0 10px; text-align:center;}
+.content .tab .step .warp i{ width:20px; height:20px; display:block; background:#fff; border-radius:10px; color:#c9c9c9; text-align:center; margin:10px 0 0 3px; overflow:hidden;}
+.content .tab .step .warp span{ margin-top:4px; display:block;}
+.content .tab .curr{ width:50px; background:url(../images/step_curr.png) no-repeat;}
+.content .tab .curr .warp i{ color:#ec5051;}
+.zoome{ width:738px; height:auto; border:1px solid #dcdcdc;float:left; box-shadow:-1px 0 1px #dedede,1px 0 7px #dedede,0 2px 5px #dedede,0 2px 5px #dedede; margin-left:-5px; position:relative; z-index:999; margin-bottom:10px; background-color:#fff;}
+.zoome .desc{ margin:30px 0 35px 45px; width:640px; height:565px; overflow:hidden; float:left;}
+.zoome .desc .item{ margin-bottom:20px;}
+.zoome .desc .item .title{ font-size:12px; font-weight:bold; color:#333; margin-bottom:5px;}
+.zoome .desc .item p{ line-height:24px; color:#666;}
+.scrollBody{ overflow:hidden;}
+.scrollBody .scrollBar{ float:right; width:5px; height:538px; background:url(../images/scrollBar.jpg) no-repeat; margin-top:35px; margin-right:16px; position:relative;}
+.scrollBody .scrollBar p{ position:absolute; width:50px; height:190px; background:url(../images/city_bar.png) 28px 0 no-repeat; top:1px; left:-28px; cursor:pointer;}
+
+.tfoot{ padding:17px 53px 23px 45px; overflow:hidden; border-top:1px solid #dcdcdc;}
+.tfoot_left{ float:left; line-height:30px; height:30px;}
+.tfoot_left input{ float:left; margin-top:9px;}
+.tfoot_left label{ float:left; margin-left:10px; cursor:pointer; color:#000;}
+.tfoot_right{ float:right;}
+.tfoot .btn{ display:block; height:28px; line-height:14px; border-radius:5px; border:1px solid #a0a0a0; cursor:pointer; text-align:center; font-size:14px; float:left; margin-right:10px; padding:0 5px; background:#fff; color:#777;}
+.tfoot .btn-curr{ background:#ec5051; border-color:#ec5051; color:#fff;}
+.tfoot .btn.last{ margin-right:0;}
+.tfoot .aga{ color:#777; margin:0;}
+
+.right{ width:198px; overflow:hidden; float:right;}
+.right .temp{ padding:20px 24px 20px 16px; background-color:#f5ebeb; margin-bottom:10px;}
+.right .temp p{ font-size:12px; color:#5c5c5c; line-height:20px;}
+.right .temp p a{ color:#426ed6; margin-left:2px;}
+.right .temp p a:hover{ color:#ec5051;}
+.right .temp p.tel{ color:#ec5051; margin-top:10px;}
+.right .temp2{ padding-right:14px;}
+
+.install_file{ width:640px; background:#fff; padding:30px 53px 35px 45px;}
+.install_file .item{ margin-bottom:20px; overflow:hidden;}
+.install_file .item .title{ height:30px; width:100%; background:url(../images/install_2_title.png) no-repeat;}
+.install_file .item .title h1{ font-size:14px; color:#fff; font-weight:normal; float:left; line-height:30px; padding-left:15px;}
+.install_file .list{ width:100%; float:left; padding-bottom:10px;}
+.install_file .list li{ width:100%; height:20px; line-height:30px; float:left;background:url(../images/dian.png) bottom repeat-x; margin-top:5px;}
+.install_file .list li .list-left{ float:left;background:#fff; padding:0 2px;}
+.install_file .list li .list-right{ float:right; background:#fff; padding-left:2px;}
+
+.install_file .list p{ padding-top:10px;}
+.install_file .item.last{ margin-bottom:0;}
+.install_file .item.last .list{ padding-bottom:0;}
+
+.install_config .value input{ vertical-align:middle;}
+.install_config .list{ margin-top:16px;}
+.install_config .list .item{ margin-bottom:8px;}
+.install_config .label{ height:30px; line-height:30px; width:130px; text-align:right; float:left; font-size:}
+.install_config .value{ float:left; width:490px;}
+.install_config .text{ height:22px; line-height:22px; padding:3px 0 3px 10px; border:1px solid #dcdcdc; border-radius:3px; width:290px;}
+.install_config .value .rot{ margin-top:8px; height:30px; line-height:30px;}
+.install_config .value .rot span{ display:inline-block; float:left; margin:0 10px;}
+.install_config .value select{ height:28px; line-height:28px; border:1px solid #dcdcdc; border-radius:3px; width:270px;}
+.install_config .value .ts{ color:#999; height:30px; line-height:30px; margin-left:2px;}
+.install_config .value .item-item{ float:left; height:30px; line-height:30px; margin-right:30px;}
+.install_config .value .item-item label{  margin-left:3px;cursor:pointer;}
+.install_config .value select.text{ width:290px;}
+.install_config .value .check-item{ height:30px; line-height:30px; float:left; margin-right:15px;}
+.install_config .value .check-item label{ cursor:pointer; padding-left:3px;}
+
+.pwd-strength{ padding:8px 0 0 130px; float: left; width: 500px;}
+.pwd-strength span{ width:97px; height:15px; border:1px solid #dcdcdc; display:block; float:left; margin-right:2px; text-align:center; line-height:15px;}
+.weak .pwd-strength-weak{ background:#f08080; color:#fff; border-color:#f08080;}
+.middle .pwd-strength-weak,.middle .pwd-strength-middle{background:#fbdc61; color:#fff; border-color:#fbdc61;}
+.strong .pwd-strength-weak,.strong .pwd-strength-middle,.strong .pwd-strength-strong{background:#8fe963; color:#fff; border-color:#8fe963;}
+
+.footer{ width:1000px; margin:0 auto; padding:20px 0;}
+.footer p{ margin-left:46px;}
+
+/*安装结束页面*/
+.install_end{ width:1000px; height:500px; background:#fff; margin-top:30px; overflow:hidden; margin-bottom:20px;}
+.end_left{ margin:100px 0 0 200px; float:left;}
+.end_right{ float:left; margin:100px 0 0 30px;}
+.end_right h1{ font-size:24px; color:#ec5150; font-weight:normal;}
+.end_right span{ display:block; font-size:14px; color:#717171; line-height:30px; margin-top:5px; margin-bottom:30px;}
+.end_right span em{ color:#ec5150;}
+.end_right a{ color:#2c71d0; font-size:12px;}
+.end_right a:hover{ text-decoration:underline; color:#ec5051;}
+.end_right p{ line-height:25px;}
+
+.loading{ position: relative; overflow: hidden;}
+.loading .loading-mask { position: fixed;width: 100%;height: 100%;top: 0px;left: 0px;opacity: 0.2;overflow: hidden;background-color:#000;z-index: 9999;}
+.loading-content{ width:520px; height:auto; position:fixed; z-index:10000;}
+.loading-top{ height:75px; width:100%; text-align:center; position:relative; background:url(../images/load_top.png) no-repeat;}
+.loading-top .tit{ font-size:18px; font-weight:bold; color:#fff; height:60px; line-height:48px;}
+.loading-top .close{ position:absolute; width:15px; height:15px; background:url(../images/close.png) no-repeat; right:28px; top:18px; cursor:pointer;}
+.loading-warp{ width:100%; height:auto; background:url(../images/load_warp.png) 14px 0 repeat-y;}
+.loading-warp .img{ padding-top:25px; text-align:center;}
+.loading-warp .desc{color: #000;font-size: 14px;padding: 5px 0 0 45px;text-align: left;}
+
+.loading-bottom{ width:100%; height:30px; background:url(../images/load_bottom.png) 15px 0 no-repeat;}
+.send_mobile_code{background-color:#fff; border:1px solid #dcdcdc; padding:3px 4px;border-radius:3px; cursor:pointer;}

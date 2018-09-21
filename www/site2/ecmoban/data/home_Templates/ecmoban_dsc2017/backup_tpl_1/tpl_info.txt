@@ -1,0 +1,8 @@
+------tpl_info------------
+tpl name：模板一
+tpl url：
+description：第一套可视化模板
+version：2.0
+author：sunle
+author_uri：
+------tpl_info------------

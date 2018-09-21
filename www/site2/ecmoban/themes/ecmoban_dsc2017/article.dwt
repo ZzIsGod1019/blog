@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<!-- #BeginLibraryItem "/library/js_languages_new.lbi" --><!-- #EndLibraryItem -->
+</head>
+
+<body class="bg-ligtGary">
+<!-- #BeginLibraryItem "/library/page_header_common.lbi" --><!-- #EndLibraryItem -->
+<div class="content article-content">
+    <div class="w w1200 clearfix">
+        <div class="article-side">
+            <dl class="article-menu">
+                <dt class="am-t"><a href="javascript:void(0);">文章分类列表</a></dt>
+                <dd class="am-c">
+                    {foreach from=$sys_categories item=sys_cat}
+                    <div class="menu-item active">
+                        <div class="item-hd"><a href="{$sys_child_cat.url}">{$sys_cat.name}</a><i class="iconfont icon-down"></i></div>
+                        <!-- {foreach from=$sys_cat.children item=sys_child_cat name=cat key=key} -->
+                        <ul class="item-bd">
+                            {foreach from=$sys_child_cat.children item=sys_c_c_cat}
+                            <li><a href="{$sys_c_c_cat.url}">{$sys_c_c_cat.name}</a></li>
+                            {/foreach}
+                        </ul>
+                        <!-- {/foreach} -->
+                    </div>
+                    {/foreach}
+                </dd>
+                <dd class="am-c">
+                    {foreach from=$custom_categories item=custom_cat}
+                    <div class="menu-item active">
+                        <div class="item-hd"><a href="{$custom_cat.url}">{$custom_cat.name}</a><i class="iconfont icon-down"></i></div>
+                        <ul class="item-bd">
+                            {foreach from=$custom_cat.children item=custom_child_cat}
+                            <li><a href="{$custom_child_cat.url}">{$custom_child_cat.name}</a></li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    {/foreach}
+                </dd>
+            </dl>
+            {if $goods_list}
+            <div class="side-goods">
+                <a href="javascript:;" class="prev"><span class="iconfont icon-left"></span></a>
+                <a href="javascript:;" class="next"><span class="iconfont icon-right"></span></a>
+                <div class="bd">
+                    {foreach from=$related_goods item=related_goods}
+                    <div class="item">
+                        <div class="p-img"><a href="{$related_goods.url}" target="_blank"><img src="{$related_goods.goods_img}" alt=""></a></div>
+                        <div class="p-name"><a href="{$related_goods.url}" title="{$related_goods.goods_name|escape:html}" target="_blank">{$related_goods.goods_name}</a></div>
+                        <div class="p-price">{$related_goods.shop_price}</div>
+                    </div>
+                    {/foreach}
+                </div>
+            </div>
+            {/if}
+        </div>
+        <div class="article-main">
+            <div class="am-hd">
+                <h2>{$article.title|escape:html}</h2>
+                <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+            </div>
+            <div class="am-bd">
+                <div class="article-words">
+                    <!-- {if $article.content } -->
+                    {$article.content}
+                    <!-- {/if} -->
+                    {if $article.open_type eq 2 or $article.open_type eq 1}<br />
+                    <div><a href="{$article.file_url}" target="_blank">{$lang.relative_file}</a></div>
+                    {/if}
+                </div>
+				<!-- {if $article.content } -->
+				<!-- #BeginLibraryItem "/library/article_comments.lbi" --> <!-- #EndLibraryItem -->
+				<!-- {/if} -->
+                <div class="more_article">
+                    <span class="art_prev">
+                        {if $prev_article}
+                        {$lang.prev_article}：<a href="{$prev_article.url}" >{$prev_article.title}</a>
+                        {/if}
+                    </span>
+                    <span class="art_next">
+                        {if $next_article}
+                        {$lang.next_article}：<a href="{$next_article.url}" >{$next_article.title}</a>
+                        {/if}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+{insert_scripts files='jquery.SuperSlide.2.1.1.js'}
+<script type="text/javascript" src="themes/<?php echo $GLOBALS['_CFG']['template']; ?>/js/dsc-common.js"></script>
+<script type="text/javascript">
+$(function(){
+    $(".article-side .side-goods").slide({
+        effect: 'leftLoop'
+    });
+});
+</script>
+</body>
+</html>

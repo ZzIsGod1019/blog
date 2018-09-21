@@ -1,0 +1,33 @@
+<div class="step_content">
+    <div class="item">
+        <div class="step_label">快递：</div>
+        <div class="step_value">
+            {$shipping_info.shipping_name}
+        </div>
+    </div>
+    <div class="item">
+        <div class="step_label">帐号：</div>
+        <div class="step_value">
+            <input type="text" name="customer_name" class="text" autocomplete="off" value="{$shipping_info.customer_name}">
+        </div>
+    </div>
+    <div class="item">
+        <div class="step_label">密码：</div>
+        <div class="step_value">
+            <input type="text" name="customer_pwd" class="text" autocomplete="off" value="{$shipping_info.customer_pwd}">
+        </div>
+    </div>
+    <div class="item">
+        <div class="step_label">月结编码：</div>
+        <div class="step_value">
+            <input type="text" name="month_code" class="text" autocomplete="off" value="{$shipping_info.month_code}" placeholder="选填">
+        </div>
+    </div>
+    <div class="item">
+        <div class="step_label">网点标识：</div>
+        <div class="step_value">
+            <input type="text" name="send_site" class="text" autocomplete="off" value="{$shipping_info.send_site}" placeholder="选填">
+        </div>
+    </div>
+	<input type="hidden" name="shipping_id" value="{$shipping_info.shipping_id}">
+</div>

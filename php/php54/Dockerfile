@@ -107,7 +107,7 @@ RUN apt-get update \
 # or
 #    `Package "xxx" does not have REST xml available`
 # Please turn on proxy (The proxy IP may be docker host IP or others):
-RUN pear config-set http_proxy http://10.0.75.1:1080
+RUN pear config-set http_proxy ""
 
 RUN pecl install redis-3.1.4 \
     && docker-php-ext-enable redis \
@@ -136,3 +136,4 @@ RUN cd /tmp/ \
         && ( cd zendopcache-7.0.5 && phpize && ./configure && make && make install ) \
         && rm -r zendopcache-7.0.5 \
         && docker-php-ext-enable opcache
+RUN docker-php-ext-install mysql

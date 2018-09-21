@@ -1,0 +1,30 @@
+<div class="imitate_select select_w85">
+    <div class="cite" id="a_select_please">{if $type eq 0}{else}{$lang.select_please}{/if}</div>
+    <ul>
+        {foreach from=$area_list item=area key=key}
+        <li><a href="javascript:;" data-value="{$area.region_id}" data-name="{$area.region_name}" data-warehouseid="{$warehouse_id}" class="ftx-01 {if $type eq 0}get_area{/if}" id="area_{$key}">{$area.region_name}</a></li>
+        {/foreach}
+    </ul>
+    <input name="area_name" type="hidden" value="">
+</div>
+
+{if $type eq 0}
+<script type="text/javascript">
+$(function(){
+	
+	var area_name = $("#area_0").data("name");
+	var area_id = $("#area_0").data("value");
+	
+	product_list({$warehouse_id}, area_id);
+	
+	$("#a_select_please").html(area_name);
+	
+	$(".get_area").click(function(){
+		var warehouse_id = $(this).data("warehouseid");
+		var area_id = $(this).data("value");;
+		
+		product_list(warehouse_id, area_id);
+	});
+});
+</script>
+{/if}

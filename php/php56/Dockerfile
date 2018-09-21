@@ -1,6 +1,6 @@
 FROM php:5.6-fpm
 
-COPY ./sources.list.jessie /etc/apt/sources.list
+COPY ./sources.list.stretch /etc/apt/sources.list
 
 # Extensions: ctype, dom, fileinfo, ftp, hash, iconv, json, pdo, pdo_sqlite, session,
 # tokenizer, simplexml, xml, xmlreader, xmlwriter and phar are bundled and compiled into
@@ -12,8 +12,8 @@ COPY ./sources.list.jessie /etc/apt/sources.list
 # 3. soap requires libxml2-dev.
 # 4. xml, xmlrpc, wddx require libxml2-dev and libxslt-dev.
 # 5. Line `&& :\` is just for better reading and do nothing.
-RUN apt-get update \
-    && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+RUN apt-get update
+RUN  apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && :\
@@ -107,18 +107,18 @@ RUN apt-get update \
 # or
 #    `Package "xxx" does not have REST xml available`
 # Please turn on proxy (The proxy IP may be docker host IP or others):
-RUN pear config-set http_proxy http://10.0.75.1:1080
-
-RUN pecl install redis-3.1.4 \
-    && docker-php-ext-enable redis \
-    && :\
-    && pecl install xdebug-2.5.5 \
-    && docker-php-ext-enable xdebug \
-    && :\
-    && apt-get install -y libmagickwand-dev \
-    && pecl install imagick-3.4.3 \
-    && docker-php-ext-enable imagick \
-    && :\
-    && apt-get install -y libmemcached-dev zlib1g-dev \
-    && pecl install memcached-2.2.0 \
-    && docker-php-ext-enable memcached
+RUN pear config-set http_proxy ""
+RUN docker-php-ext-install mysql
+# RUN pecl install redis-3.1.4 \
+#     && docker-php-ext-enable redis \
+#     && :\
+#     && pecl install xdebug-2.5.5 \
+#     && docker-php-ext-enable xdebug \
+#     && :\
+#     && apt-get install -y libmagickwand-dev \
+#     && pecl install imagick-3.4.3 \
+#     && docker-php-ext-enable imagick \
+#     && :\
+#     && apt-get install -y libmemcached-dev zlib1g-dev \
+#     && pecl install memcached-2.2.0 \
+#     && docker-php-ext-enable memcached

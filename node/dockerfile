@@ -1,0 +1,7 @@
+FROM node:latest
+
+COPY ./README.md /usr/src/README.md
+WORKDIR /usr/src/app
+RUN npm install -g npm --registry=https://registry.npm.taobao.org
+#USER node
+EXPOSE 8080

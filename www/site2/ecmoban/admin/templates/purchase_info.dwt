@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title"><a href="{$action_link.href}" class="s-back">{$lang.back}</a>供求 - {$ur_here}</div>
+        <div class="content">
+        	<div class="explanation" id="explanation">
+            	<div class="ex_tit"><i class="sc_icon"></i><h4>{$lang.operating_hints}</h4><span id="explanationZoom" title="{$lang.fold_tips}"></span></div>
+                <ul>
+                	<li>{$lang.operation_prompt_content_common}</li>
+                    <li>请注意不要随意篡改原始数据。</li>
+                </ul>
+            </div>
+            <div class="flexilist">
+                <div class="common-content">
+                    <div class="mian-info">
+                        <form action="wholesale_purchase.php" method="post" name="theForm" enctype="multipart/form-data" id="purchase_form" >
+                            <div class="switch_info b2b_switch_info" id="conent_area">
+                                <div class="item">
+                                    <div class="label">求购单标题：</div>
+                                    <div class="label_value">{$purchase_info.subject|escape:html}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">求购产品类型：</div>
+                                    <div class="label_value">{$lang.purchase_type.$purchase_info.type}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">求购商品：</div>
+                                    <div class="label_value">
+										<table class="b2b-table">
+											<colgroup>
+												<col width="100">
+												<col width="250">
+												<col width="160">
+												<col width="100">
+												<col width="100">
+												<col>
+											</colgroup>
+											<thead>
+											<tr>
+												<th>序号</th>
+												<th>采购商品名称</th>
+												<th>采购商品分类</th>
+												<th>采购数量</th>
+												<th>目标单价</th>
+												<th>其他备注</th>
+											</tr>
+											</thead>
+											<tbody>
+												{foreach from=$purchase_info.goods_list item=goods name=goods}
+												<tr>
+													<td>{$smarty.foreach.goods.iteration}</td>
+													<td><div class="tDiv t-name tl">{$goods.goods_name}</div></td>
+													<td><div class="tDiv">{$goods.cat_name}</div></td>
+													<td><div class="tDiv">{$goods.goods_number}件</div></td>
+													<td><div class="tDiv">{$goods.goods_price}元</div></td>
+													<td>
+														<div class="tDiv">
+															{if $goods.remarks}<div class="t-desc"><span>{$goods.remarks}</span></div>{/if}
+															<div class="t-images">
+																<div class="t-images-info">
+																	<ul>
+																		{foreach from=$goods.goods_img item=img}
+																		<li><a href="javascript:void(0);" class="img"><img src="../{$img}"></a><a href="../{$img}" class="nyroModal"><i class="icon icon-search"></i></a></li>
+																		{/foreach}
+																	</ul>
+																</div>
+																<a href="javascript:void(0);" class="prev"><i class="iconfont icon-left"></i></a>
+																<a href="javascript:void(0);" class="next"><i class="iconfont icon-right"></i></a>
+															</div>
+														</div>
+													</td>
+												</tr>
+												{/foreach}
+											</tbody>
+										</table>
+									</div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">姓名：</div>
+                                    <div class="label_value">{$purchase_info.contact_name} {$lang.contact_gender.$purchase_info.contact_gender}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">联系电话：</div>
+                                    <div class="label_value">{$purchase_info.contact_phone}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">电子邮件：</div>
+                                    <div class="label_value">{$purchase_info.contact_email}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">发票信息：</div>
+                                    <div class="label_value">{$lang.need_invoice.$purchase_info.need_invoice}{if $purchase_info.invoice_tax_rate} 税率{$purchase_info.invoice_tax_rate}{/if}</div>
+                                </div>	
+                                <div class="item">
+                                    <div class="label">详细地址：</div>
+                                    <div class="label_value">{$purchase_info.consignee_region} {$purchase_info.consignee_address}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">补充说明：</div>
+                                    <div class="label_value">{$purchase_info.description}</div>
+                                </div>								
+                                <div class="item">
+                                    <div class="label">&nbsp;</div>
+                                    <div class="label_value info_btn">
+                                        <!--<a href="javascript:;" class="button" id="submitBtn">{$lang.button_submit}</a>-->
+                                        <input type="hidden" name="act" value="{$form_act}" />
+                                        <input type="hidden" name="purchase_id" value="{$purchase_info.purchase_id}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+		</div>
+    </div>
+ 	{include file ='library/pagefooter.lbi'}
+    {insert_scripts files='../js/jquery.SuperSlide.2.1.1.js'}
+    <script type="text/javascript">	
+	$(function(){
+		//点击查看图片
+		$('.nyroModal').nyroModal();
+		
+		$(".t-images").slide({"mainCell":".t-images-info ul",effect:"left",trigger:"click",pnLoop:false,autoPage:true,vis:2,scroll:1});
+			
+		//表单验证
+		$("#submitBtn").click(function(){
+			if($("#purchase_form").valid()){
+				$("#purchase_form").submit();
+			}
+		});
+	
+		$('#purchase_form').validate({
+			errorPlacement:function(error, element){
+				var error_div = element.parents('div.label_value').find('div.form_prompt');
+				element.parents('div.label_value').find(".notic").hide();
+				error_div.append(error);
+			},
+			rules:{
+
+			},
+			messages:{
+
+			}			
+		});
+	});		
+    </script>     
+</body>
+</html>

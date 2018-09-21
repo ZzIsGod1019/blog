@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title">{$lang.11_system} - {$ur_here}</div>
+        <div class="content">
+        	{include file ='library/shipping_menu_tab.lbi'}		
+        	<div class="explanation" id="explanation">
+            	<div class="ex_tit">
+					<i class="sc_icon"></i><h4>{$lang.operating_hints}</h4><span id="explanationZoom" title="{$lang.fold_tips}"></span>
+                    {if $open eq 1}
+                    <div class="view-case">
+                    	<div class="view-case-tit"><i></i>{$lang.view_tutorials}</div>
+                        <div class="view-case-info">
+                        	<a href="http://help.ecmoban.com/article-3141.html" target="_blank">配送方式使用说明</a>
+                        </div>
+                    </div>			
+                    {/if}	
+				</div>
+                <ul>
+                	<li>该页面展示了平台所有配送方式的信息列表。</li>
+                    <li>安装配送方式后需设置区域方可使用。</li>
+                    <li>支持快递鸟打印的快递，部分还需要申请帐号才能正常使用，请按照如下提示进行设置
+                        <p><strong class="red">无需申请帐号：</strong>EMS、邮政快递包裹、顺丰、宅急送</p>
+                        <p><strong class="red">线上（快递鸟后台）申请账号：</strong>韵达、圆通</p>
+                        <p><strong class="red">线下（网点）申请账号：</strong>百世汇通、全峰、申通、天天、中通</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="flexilist">
+                <div class="common-content">
+                	<div class="list-div">
+                        <table class="table_layout">
+                        	<thead>
+                            	<tr>
+                                    <th width="12%"><div class="tDiv">{$lang.shipping_name}</div></th>
+                                    <th width="30%"><div class="tDiv">{$lang.shipping_url}</div></th>
+                                    <th width="7%"><div class="tDiv">{$lang.insure}</div></th>
+                                    <th width="7%"><div class="tDiv">{$lang.support_cod}</div></th>
+                                    <th width="7%"><div class="tDiv">快递鸟打印</div></th>
+                                    <th width="7%"><div class="tDiv">默认方式</div></th>
+                                    <th width="8%"><div class="tDiv">{$lang.sort_order}</div></th>
+                                    <th width="22%" class="handle">{$lang.handler}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            	{foreach from=$modules item=module}
+                                {if ($seller_shopinfo.ru_id>0 && $module.install == 1 && $module.code != 'cac') || $seller_shopinfo.ru_id==0}
+                            	<tr>
+                                    <td>
+                                    	<div class="tDiv">
+                                        {if $module.install == 1}
+                                        	<div class="editSpanInput" ectype="editSpanInput">
+                                        		<span onclick="listTable.edit(this, 'edit_name', '{$module.code}')">{$module.name}</span>
+                                            	<i class="icon icon-edit"></i>									
+                                            </div>
+										{else}
+                                            {$module.name}
+                                        {/if}
+                                        </div>
+                                    </td>
+                                    <td>
+                                    	<div class="tDiv">
+                                          {if $module.install == 1}
+                                          <span onclick="listTable.edit(this, 'edit_desc', '{$module.code}'); return false;">{$module.desc}</span>
+                                          {else}
+                                          <span>{$module.desc}</span>
+                                          {/if}
+                                        </div>
+                                    </td>
+                                    <td>
+                                    	<div class="tDiv">
+                                          {if $module.install == 1 && $module.is_insure neq 0}
+                                          <span onclick="listTable.edit(this, 'edit_insure', '{$module.code}'); return false;">{$module.insure_fee}</span>
+                                          {else}
+                                          {$module.insure_fee}
+                                          {/if}
+                                        </div>
+                                    </td>
+                                    <td><div class="tDiv">{if $module.cod==1}<img src="images/yes.png" alt="{$lang.yes}" title="{$lang.yes}">{else}<img src="images/no.png" alt="{$lang.no}" title="{$lang.no}">{/if}</div></td>
+									<td><div class="tDiv">{if $module.kdniao_print==1}<img src="images/yes.png" alt="{$lang.yes}" title="{$lang.yes}">{else}<img src="images/no.png" alt="{$lang.no}" title="{$lang.no}">{/if}</div></td>
+                                    <td><div class="tDiv">{if $seller_shopinfo.ru_id==0 && $module.id==$seller_shopinfo.shipping_id}<img src="images/yes.png" title="{$module.name}已启用">{else}<img src="images/no.png" alt="{$lang.no}" title="{$lang.no}">{/if}</div></td>
+                                    <td><div class="tDiv">{if $module.install == 1}<span onclick="listTable.edit(this, 'edit_order', '{$module.code}'); return false;">{$module.shipping_order}</span>{else}0{/if}</div></td>
+                                    <td class="handle handle_tr tr">
+                                        <div class="tDiv">
+                                          {if $module.install == 1}
+                                              {if $module.kdniao_print == 1}
+                                                  {if $module.kdniao_account>0}
+                                                  <a href="javascript:void(0);" class="btn_region" ectype="account_setting" data-id="{$module.id}" data-code="{$module.code}"><i class="icon icon-cog"></i>快递鸟帐号设置</a>
+                                                  {/if}
+                                              {/if}
+                                          <a href="javascript:confirm_redirect(lang_removeconfirm,'shipping.php?act=uninstall&code={$module.code}')" class="btn_trash"><i class="icon icon-trash"></i>{$lang.uninstall}</a>
+                                          {if $module.code eq 'cac'}
+                                          <a href="shipping_area.php?act=list&shipping={$module.id}" class="btn_region"><i class="sc_icon icon-map-marker"></i>{$lang.shipping_area}</a> 
+                                          {/if}
+                                          <a href="shipping.php?act=edit_print_template&shipping={$module.id}" class="btn_edit"><i class="icon icon-edit"></i>{$lang.shipping_print_edit}</a>
+                                          {else}
+                                          <a href="shipping.php?act=install&code={$module.code}" class="btn_inst"><i class="sc_icon sc_icon_inst"></i>{$lang.install}</a>
+                                          {/if}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/if}
+                                {foreachelse}
+                                <tr><td class="no-records" colspan="12">{$lang.no_records}</td></tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 	{include file ='library/pagefooter.lbi'}
+	{insert_scripts files="jquery.purebox.js"}
+	<script type="text/javascript">
+	//帐号设置
+	$(document).on('click', "*[ectype='account_setting']", function(){
+		var id = $(this).data('id');
+		$.jqueryAjax('shipping.php', 'act=account_setting&id='+id, function(data){
+			var content = data.content;
+			pb({
+				id:"categroy_dialog",
+				title:'帐号设置',
+				width:500,
+				content:content,
+				ok_title:"{$lang.button_submit_alt}",
+				cl_title:"{$lang.cancel}",
+				drag:true,
+				foot:true,
+				onOk:function(){
+					save_account();
+				}
+			});		
+		})
+	})
+	//保存设置
+	function save_account(){
+		var obj = $("#categroy_dialog");
+		var shipping_id = obj.find("input[name='shipping_id']").val();
+		var customer_name = obj.find("input[name='customer_name']").val();
+		var customer_pwd = obj.find("input[name='customer_pwd']").val();
+		var month_code = obj.find("input[name='month_code']").val();
+		var send_site = obj.find("input[name='send_site']").val();
+		$.jqueryAjax('shipping.php', 'act=account_save&shipping_id='+shipping_id+'&customer_name='+customer_name+'&customer_pwd='+customer_pwd+'&month_code='+month_code+'&send_site='+send_site, function(data){
+		})
+	}
+	</script>	
+</body>
+</html>

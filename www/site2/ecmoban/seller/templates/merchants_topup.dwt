@@ -1,0 +1,116 @@
+{if $full_page}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+{include file ='library/seller_html_head.lbi'}
+{insert_scripts files='./sms/sms.js'}
+</head>
+
+<body>
+{include file ='library/seller_header.lbi'}
+<div class="ecsc-layout">
+    <div class="site wrapper">
+        {include file ='library/seller_menu_left.lbi'}
+        <div class="ecsc-layout-right">
+            <div class="main-content" id="mainContent">
+				{include file ='library/url_here.lbi'}
+				{include file ='library/seller_menu_tab.lbi'}
+                {/if}
+                <div class="ecsc-form-goods">
+                <form method="post" action="merchants_account.php" name="listForm" onsubmit="return accountCheck();" enctype="multipart/form-data">
+                <div class="wrapper-list">
+                	<dl>
+                    	<dt>{$lang.label_topup}：</dt>
+                        <dd id="seller_money" class="txtline red">{$seller_shopinfo.seller_money}</dd>
+                    </dl>
+                    <dl>
+                    	<dt>{$lang.require_field}&nbsp;{$lang.label_topup_account}：</dt>
+                        <dd>
+                        	<input name="topup_account" type="text" id="topup_account" class="text">
+                            <div class="notic">您当前会员余额：<em id="user_money" class="red">{$user_money}</em></div>
+                        </dd>
+                    </dl>
+                    <dl>
+                    	<dt>{$lang.label_topup_desc}：</dt>
+                        <dd>
+                        	<textarea name="topup_note" cols="50" rows="10" class="textarea"></textarea>
+                            <div class="notic">{$lang.label_topup_instructions}</div>
+                        </dd>
+                    </dl>
+                    <dl>
+                    	<dt>{$lang.require_field}&nbsp;支付方式：</dt>
+                        <dd>
+                        	<!--{foreach from=$pay item=pay name=payName}-->
+                            {if $pay.pay_code neq 'onlinepay' && $pay.pay_code neq 'chunsejinrong'}
+                            <span data-id="{$pay.pay_id}" class="sub_pay sub_border {if $seller_apply_info.pay_id eq $pay.pay_id}sub_border2{/if}" >{$pay.pay_name}</span>
+                            { /if}
+                            <!--{/foreach}-->
+                        </dd>
+                    </dl>
+                    <dl id="transfer" style="display:none;">
+                    	<dt>{$lang.require_field}&nbsp;{$lang.transfer_certificate}：</dt>
+                        <dd><input name="certificate_img" type="file" id="certificate_img" /></dd>
+                    </dl>
+                    <dl class="button_info">
+                    	<dt>&nbsp;</dt>
+                        <dd>
+                        	<input name="query" type="submit" class="sc-btn sc-blueBg-btn btn35" id="query" value="{$lang.button_submit}" />
+                            <input name="reset" type="reset" class="sc-btn btn35 sc-blue-btn" value="{$lang.button_reset}" />
+                            <input type="hidden" name="pay_id" id="pay_id" value="0">
+                            <input type="hidden" name="act" value="{$form_act}"/>
+                            <input type="hidden" name="submit_act" value="1"/>
+                        </dd>
+                    </dl>
+                </div>
+                </form>
+                </div>
+                {if $full_page}
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	$("#pay_id").val(0);
+    $(".sub_pay").click(function(){
+         var pay_id = $(this).data('id');
+         $("#pay_id").val(pay_id);
+        $(this).addClass("sub_border2").siblings().removeClass('sub_border2');
+		
+		if(pay_id == 2){
+			$("#transfer").show();
+		}else{
+			$("#transfer").hide();
+		}
+    })
+}); 
+
+function accountCheck(){
+	var certificate_img = $("#certificate_img").val();
+	var pay_id = $("#pay_id").val();
+	var topup_account = $("#topup_account").val();
+	var user_money = $("#user_money").html();
+	user_money = Number(user_money);
+	
+	if(topup_account == ''){
+		alert("充值金额不能为空");
+		return false;
+	}else if(topup_account > user_money && pay_id == 1){
+		alert("充值金额不能大于您当前会员余额");
+		return false;
+	}else if(pay_id == 0){
+		alert("请选择支付方式");
+		return false;
+	}else if(pay_id == 2 && certificate_img.length < 1){
+		alert("请上传转账凭证图片");
+		return false;
+	}
+	
+	return true;
+}
+</script>
+{include file ='library/seller_footer.lbi'}
+</body>
+</html>
+{/if}

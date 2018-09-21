@@ -1,0 +1,182 @@
+{if $full_page}
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title">订单 - {$ur_here}</div>
+        <div class="content">
+            <div class="tabs_info">
+            	<ul>
+                    <li><a href="order_delay.php?act=complaint_conf">延迟收货设置</a></li>
+                    <li class="curr"><a href="order_delay.php?act=list">延迟收货申请</a></li>
+                </ul>
+            </div>
+        	<div class="explanation" id="explanation">
+            	<div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+                <ul>
+                	<li>该页面展示了所以延迟收货申请，请尽快审核。</li>
+                    <li>审核前需先设置延迟时间</li>
+                </ul>
+            </div>
+            <div class="flexilist">
+            	<!--商品分类列表-->
+                <div class="common-head">
+                    <div class="refresh{if !$action_link} ml0{/if}">
+                    	<div class="refresh_tit" title="刷新数据"><i class="icon icon-refresh"></i></div>
+                    	<div class="refresh_span">刷新 - 共{$record_count}条记录</div>
+                    </div>
+                    <div class="search">
+                        <form action="javascript:searchUser()" name="searchForm">
+                            <div class="select m0">
+                                <div class="imitate_select select_w170">
+                                    <div class="cite">全部</div>
+                                    <ul>
+                                        <li><a href="javascript:;" data-value="-1" class="ftx-01">全部</a></li>
+                                        <li><a href="javascript:;" data-value="0" class="ftx-01">未审核</a></li>
+                                        <li><a href="javascript:;" data-value="1" class="ftx-01">审核通过</a></li>
+                                        <li><a href="javascript:;" data-value="2" class="ftx-01">审核未通过</a></li>
+                                    </ul>
+                                    <input name="review_status" type="hidden" value="0" id="">
+                                </div>
+                            </div>
+                            <div class="input">
+                                <input type="text" name="keyword" class="text nofocus" placeholder="会员名称" autocomplete="off" /><button class="btn" name="secrch_btn"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="common-content">
+                    <form method="post" action="" name="listForm" onsubmit="return confirmSubmit()">
+                	<div class="list-div" id="listDiv">
+                        {/if}
+                    	<table cellpadding="0" cellspacing="0" border="0">
+                            <thead>
+                                <tr>
+                                    <th width="3%" class="sign"><div class="tDiv"><input type="checkbox" name="all_list" class="checkbox" id="all_list" autocomplete="off" /><label for="all_list" class="checkbox_stars"></label></div></th>
+                                    <th width="30%">会员名称</th>
+                                    <th width="15%"><div class="tDiv">订单号</div></th>
+                                    <th width="25%"><div class="tDiv">延期时间</div></th>
+                                    <th width="10%"><div class="tDiv">审核人</div></th>
+                                    <th width="15%" class="handle">审核状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foreach from=$order_delay_list item=order_delay_list}
+                            	<tr>
+                                    <td class="sign"><div class="tDiv"><input type="checkbox" name="checkboxes[]"  class="checkbox" value="{$order_delay_list.delayed_id}" id="checkbox_{$order_delay_list.delayed_id}"  autocomplete="off" /><label for="checkbox_{$order_delay_list.delayed_id}" class="checkbox_stars"></label></div></td>
+                                    <td><div class="tDiv">{$order_delay_list.user_name|escape}</div></td>
+                                    <td><div class="tDiv">{$order_delay_list.order_sn}</div></td>
+                                    <td>
+                                        <div class="tDiv">
+                                            {if $order_delay_list.review_status}
+                                                {$order_delay_list.apply_day}
+                                            {else}
+                                                <input type="text" name="commission_rate" class="text w40" value="{$order_delay_list.apply_day}" onkeyup="listTable.editInput(this, 'edit_apply_day', '{$order_delay_list.delayed_id}')">
+                                            {/if}
+                                        </div>
+                                    </td>
+                                    <td><div class="tDiv">{$order_delay_list.review_admin_user}</div></td>
+                                    <td><div class="tDiv handle">{$order_delay_list.review_status_info}</div></td>
+                                </tr>
+                                {foreachelse}
+                                <tr><td class="no-records" colspan="12">{$lang.no_records}</td></tr>
+                                {/foreach}
+                            </tbody>
+                            <tfoot>
+                            	<tr>
+                                    <td colspan="12">
+                                        <div class="tDiv">
+                                            <div class="tfoot_btninfo">
+                                                <div id="type" class="imitate_select select_w170">
+                                                    <div class="cite">请选择...</div>
+                                                    <ul>
+                                                        <li><a href="javascript:;" data-value="" class="ftx-01">请选择...</a></li>
+                                                        <li><a href="javascript:;" data-value="batch_remove" class="ftx-01">删除</a></li>
+                                                        <li><a href="javascript:;" data-value="review_to" class="ftx-01">审核</a></li>
+                                                    </ul>
+                                                    <input name="type" type="hidden" value="" id="type_val" autocomplete="off">
+                                                </div>
+                                                <div id="review_status" class="imitate_select select_w170" style="display:none">
+                                                    <div class="cite">请选择...</div>
+                                                    <ul>
+                                                        <li><a href="javascript:;" data-value="" class="ftx-01">请选择...</a></li>
+                                                        <li><a href="javascript:;" data-value="1" class="ftx-01">审核通过</a></li>
+                                                        <li><a href="javascript:;" data-value="2" class="ftx-01">审核未通过</a></li>
+                                                    </ul>
+                                                    <input name="review_status" type="hidden" value="" id="review_status_val" autocomplete="off">
+                                                </div>
+                                                <input type="hidden" value="batch" name="act">
+                                                <input name="act" type="hidden" value="batch" />
+                                                <input name="remove" type="submit" ectype="btnSubmit" value="确定" class="btn btn_disabled" disabled />
+                                            </div>
+                                            <div class="list-page">
+                                                {include file="library/page.lbi"}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        {if $full_page}
+                    </div>
+                    </form>
+                </div>
+            </div>
+	</div>
+	</div>
+ {include file ='library/pagefooter.lbi'}
+<script type="text/javascript">
+
+listTable.recordCount = '{$record_count}';
+listTable.pageCount = '{$page_count}';
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+   
+$.divselect("#type","#type_val",function(obj){
+    var val = obj.attr("data-value");
+    if(val == 'review_to'){
+        $("#review_status").show();
+    }else{
+        $("#review_status").hide();
+    }
+});
+/**
+ * 搜索用户
+ */
+function searchUser()
+{
+    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['review_status'] = Utils.trim(document.forms['searchForm'].elements['review_status'].value);
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+}    
+
+    function confirmSubmit(frm, ext)
+{
+    if (frm.elements['type'].value == 'trash')
+    {
+        return confirm('你确定要删除所选的会员实名信息吗？');
+    }
+    else if (frm.elements['type'].value == '')
+    {
+        return false;
+    }
+    else
+    {
+        if(frm.elements['review_status'].value == ''){
+            alert("请选择操作状态");
+            return false;
+        }else{
+            return true;
+        }
+    }
+}
+$(".ps-container").perfectScrollbar();
+</script>     
+</body>
+</html>
+{/if}

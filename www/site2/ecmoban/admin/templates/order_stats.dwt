@@ -1,0 +1,416 @@
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+<div class="warpper">
+    <div class="title">{$lang.report_form} - 订单统计</div>
+    <div class="content">
+        <div class="explanation" id="explanation">
+            <div class="ex_tit"><i class="sc_icon"></i><h4>{$lang.operating_hints}</h4><span id="explanationZoom" title="{$lang.fold_tips}"></span></div>
+            <ul>
+                <li>统计商城所有的订单，销售总额、有效金额、总点击数、每日点击数、每日点击购买额。</li>
+                <li>选择不同月份统计出现几个月的订单概括、配送方式、支付方式统计图。</li>
+            </ul>
+        </div>
+        <div class="flexilist mt30">
+            <div class="common-head">
+                <div class="fl">
+                    <div class="fbutton"><div class="csv" title="导出数据"><span><i class="icon icon-download-alt"></i>导出列表</span></div></div>
+                </div>
+                <div class="total_items">
+                    <ul>
+                        <li>销售总额：<b>{$order_total}</b></li>
+                        <li>有效订单总额：<b>{$total_turnover}</b></li>
+                        <li>总点击数：<b>{$click_count}</b></li>
+                        <li>每千点击订单数：<b>{$click_ordernum}</b></li>
+                        <li>每千点击购物额：<b>{$click_turnover}</b></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="common-content">
+                <div class="mian-info">
+                    <div class="switch_info">
+                        <div class="stat_order_search">
+                            <div class="search_item">
+                                <form action="" method="post" id="selectForm" name="selectForm">
+                                    <strong>起止日期：</strong>
+                                    <div class="text_time" id="text_time_start">
+                                        <input type="text" class="text" name="start_date" value="{$start_date}" id="start_date" value="" autocomplete="off" readonly>
+                                    </div>
+                                    <span class="bolang">&nbsp;&nbsp;~&nbsp;&nbsp;</span>
+                                    <div class="text_time" id="text_time_end">
+                                        <input type="text" class="text" name="end_date" value="{$end_date}" id="end_date" value="" autocomplete="off" readonly>
+                                    </div>
+                                    <a href="javascript:void(0);" onclick="$('#selectForm').submit()" class="btn btn30 blue_btn" ectype="query"><i class="icon icon-search"></i>查询</a>
+                                </form>
+                            </div>   
+                            <div class="search_item">
+                                <strong>查询年月：</strong>
+                                <form method="post" id="selectForm_2" name="selectForm_2">
+                                    <!--{foreach from=$start_date_arr item=start_date key=k}-->
+                                    {if $k > 0}
+                                    <span class="bolang">&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+                                    {/if}
+                                    <div class="text_time" id="text_time_start">
+                                        <input type="text" class="text" name="year_month[]" id="year_month_{$k}" value="{$start_date}" autocomplete="off" readonly>
+                                    </div>
+                                    <!--{/foreach}-->
+                                    <input type="hidden" name="is_multi" value="1" />
+                                <a href="javascript:;" onclick="$('#selectForm_2').submit()" class="btn btn30 blue_btn" ectype="query"><i class="icon icon-search"></i>查询</a>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="stat_order_warp">
+                            <div class="stat_order_tabs">
+                                <ul>
+                                    <li class="current">订单概况</li>
+                                    <li>配送方式</li>
+                                    <li>支付方式</li>
+                                    <li>配送地区</li>
+                                </ul>
+                            </div>
+                            <div class="stat_order_content">
+                            	<div class="stat_order_item">
+                                	<div id="order_main" style="height:378px;"></div>
+                                    <div id="order_main_price" style="height:378px;"></div>
+                                </div>
+                                <div class="stat_order_item">
+                                	<div id="ship_main" style="width:970px; height:500px; margin:0 auto;"></div>
+                                </div>
+                                <div class="stat_order_item">
+                                	<div id="pay_main" style="width:970px; height:500px; margin:0 auto;"></div>
+                                </div>
+                                <div class="stat_order_item">
+                                	<div id="area_main" style="width:970px; height:500px; margin:0 auto;"></div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file ='library/pagefooter.lbi'}
+<script type="text/javascript" src="js/region.js"></script>
+<script type="text/javascript" src="../js/echarts-all.js"></script>
+<script type="text/javascript" src="../js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript">
+	//统计数据 start
+	var is_multi = {if $is_multi}true{else}false{/if};
+	var order_data = {if $order_data}{$order_data}{else}''{/if};
+	var ship_data = {if $ship_data}{$ship_data}{else}''{/if};
+	var pay_data = {if $pay_data}{$pay_data}{else}''{/if};
+	var area_data = {if $area_data}{$area_data}{else}''{/if};
+
+	var myChart_order = echarts.init(document.getElementById("order_main"));
+	var myChart_ship = echarts.init(document.getElementById("ship_main"));
+	var myChart_pay = echarts.init(document.getElementById("pay_main"));
+	var myChart_area = echarts.init(document.getElementById("area_main"));
+	var myChart_price = echarts.init(document.getElementById("order_main_price"));
+	
+	if(is_multi){
+		//订单概况
+		var option_order = {
+			title : {
+				text: '订单概况',
+				subtext: ''
+			},
+			tooltip : {
+				trigger: 'axis'
+			},
+			legend: {
+				data:['已确认','已成交',"未确认","无效或取消"]
+			},
+			toolbox: {
+				show : true,
+				feature : {
+					magicType : {show: true, type: ['line', 'bar']},
+					restore : {show: true},
+					saveAsImage : {show: true}
+				}
+			},
+			calculable : true,
+			xAxis : [
+				{
+					type : 'category',
+					data : order_data[0]
+				}
+			],
+			yAxis : [
+				{
+					type : 'value'
+				}
+			],
+			series : [
+				{
+					name:'已确认',
+					type:'bar',
+					data:order_data[1],
+					markPoint : {
+						data : [
+							{type : 'max', name: '最大值'},
+							{type : 'min', name: '最小值'}
+						]
+					},
+					markLine : {
+						data : [
+							{type : 'average', name: '平均值'}
+						]
+					}
+				},
+				{
+					name:'已成交',
+					type:'bar',
+					data:order_data[2],
+					markPoint : {
+						data : [
+							{type : 'max', name: '最大值'},
+							{type : 'min', name: '最小值'}
+						]
+					},
+					markLine : {
+						data : [
+							{type : 'average', name : '平均值'}
+						]
+					}
+				},
+				{
+					name:'未确认',
+					type:'bar',
+					data:order_data[3],
+					markPoint : {
+						data : [
+							{type : 'max', name: '最大值'},
+							{type : 'min', name: '最小值'}
+						]
+					},
+					markLine : {
+						data : [
+							{type : 'average', name : '平均值'}
+						]
+					}
+				},
+				{
+					name:'无效或取消',
+					type:'bar',
+					data:order_data[4],
+					markPoint : {
+						data : [
+							{type : 'max', name: '最大值'},
+							{type : 'min', name: '最小值'}
+						]
+					},
+					markLine : {
+						data : [
+							{type : 'average', name : '平均值'}
+						]
+					}
+				}
+			]
+		};
+	}else{
+	}
+	
+	//配送方式
+	option_ship = {
+		title : {
+			text: '配送方式',
+			subtext: '',
+		},
+		tooltip : {
+			trigger: 'item',
+			formatter: "{a} <br/>{b} : {c} ({d}%)"
+		},
+		legend: {
+			data: ship_data[0]
+		},
+		series : [
+			{
+				name: '访问来源',
+				type: 'pie',
+				radius : '55%',
+				center: ['50%', '60%'],
+				data: ship_data[1],
+				itemStyle: {
+					emphasis: {
+						shadowBlur: 10,
+						shadowOffsetX: 0,
+						shadowColor: 'rgba(0, 0, 0, 0.5)'
+					}
+				}
+			}
+		]
+	};
+	
+	//支付方式
+	option_pay = {
+		title : {
+			text: '支付方式',
+			subtext: '',
+		},
+		tooltip : {
+			trigger: 'item',
+			formatter: "{a} <br/>{b} : {c} ({d}%)"
+		},
+		legend: {
+			data: pay_data[0]
+		},
+		series : [
+			{
+				name: '访问来源',
+				type: 'pie',
+				radius : '55%',
+				center: ['50%', '60%'],
+				data: pay_data[1],
+				itemStyle: {
+					emphasis: {
+						shadowBlur: 10,
+						shadowOffsetX: 0,
+						shadowColor: 'rgba(0, 0, 0, 0.5)'
+					}
+				}
+			}
+		]
+	};
+
+	//配送地区
+	option_area = {
+		title : {
+			text: '配送地区',
+			subtext: '',
+		},
+		tooltip : {
+			trigger: 'item',
+			formatter: "{a} <br/>{b} : {c} ({d}%)"
+		},
+		legend: {
+			data: area_data[0]
+		},
+		series : [
+			{
+				name: '访问来源',
+				type: 'pie',
+				radius : '55%',
+				center: ['50%', '60%'],
+				data: area_data[1],
+				itemStyle: {
+					emphasis: {
+						shadowBlur: 10,
+						shadowOffsetX: 0,
+						shadowColor: 'rgba(0, 0, 0, 0.5)'
+					}
+				}
+			}
+		]
+	};
+	
+	if(is_multi){
+		//订单概况
+		myChart_order.setOption(option_order);
+	}else{
+		//订单概况
+		myChart_order.setOption(order_data['order']);
+		myChart_price.setOption(order_data['sale']);
+	}
+	//配送方式
+	myChart_ship.setOption(option_ship);
+	//支付方式
+	myChart_pay.setOption(option_pay);
+	//配送地区
+	myChart_area.setOption(option_area);	
+	//统计数据 end
+	
+	$(".stat_order_warp").slide({titCell:".stat_order_tabs ul li",mainCell:".stat_order_content",trigger:"click",titOnClassName:"current",});
+	
+    //地区三级联动调用
+    $.levelLink();
+	
+    //时间选择1
+    var opts1 = {
+        'targetId':'start_date',
+        'triggerId':['start_date'],
+        'alignId':'text_time_start',
+        'format':'-',
+        'hms':'off'
+    },opts2 = {
+        'targetId':'end_date',
+        'triggerId':['end_date'],
+        'alignId':'text_time_end',
+        'format':'-',
+        'hms':'off'
+    },
+    opts3 = {
+        'targetId':'year_month_0',
+        'triggerId':['year_month_0'],
+        'alignId':'year_month_0',
+        'format':'-',
+        'hms':'off'
+    },opts4 = {
+        'targetId':'year_month_1',
+        'triggerId':['year_month_1'],
+        'alignId':'year_month_1',
+        'format':'-',
+        'hms':'off'
+    },opts5 = {
+        'targetId':'year_month_2',
+        'triggerId':['year_month_2'],
+        'alignId':'year_month_2',
+        'format':'-',
+        'hms':'off'
+    },opts6 = {
+        'targetId':'year_month_3',
+        'triggerId':['year_month_3'],
+        'alignId':'year_month_3',
+        'format':'-',
+        'hms':'off'
+    },opts7 = {
+        'targetId':'year_month_4',
+        'triggerId':['year_month_4'],
+        'alignId':'year_month_4',
+        'format':'-',
+        'hms':'off'
+    }
+
+    xvDate(opts3);
+    xvDate(opts4);
+    xvDate(opts5);
+    xvDate(opts6);
+    xvDate(opts7);
+    xvDate(opts1);
+    xvDate(opts2);
+
+    //导出报表
+    $('.fbutton').click(function(){
+        var start_date=get_unix_time($('input[name=start_date]').val());
+        var end_date=get_unix_time($('input[name=end_date]').val());
+        location.href='order_stats.php?act=download&start_date='+start_date+'&end_date='+end_date+'&filename='+start_date+'_'+end_date;
+    });
+    function get_unix_time(dateStr)
+    {
+        var newstr = dateStr.replace(/-/g,'/');
+        var date =  new Date(newstr);
+        var time_str = date.getTime().toString();
+        return time_str.substr(0, 10);
+    }
+	
+	function get_country(){
+        var countries = $('#countries').val();
+        var provinces = $('#provinces').val();
+        Ajax.call('order_stats.php?act=area', "country="+countries+"&province="+provinces, get_Response, "POST", "TEXT");
+    }
+    function get_Response(res){
+        $('#area_value').val('&dataXML=' + res);
+        {if $is_multi eq '0'}
+        var str = '<embed id="embed" src="images/charts/pie3d.swf?chartWidth=650&chartHeight=400" FlashVars="&dataXML=' + res + '"quality="high" bgcolor="#FFFFFF"  width="650" height="400" name="FCColumn2" wmode="opaque" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">';
+        {else}
+        var str = '<embed id="embed" src="images/charts/MSColumn3D.swf?chartWidth=650&chartHeight=400" FlashVars="&dataXML=' + res + '"quality="high" bgcolor="#FFFFFF"  width="650" height="400" name="FCColumn2" wmode="opaque" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">';
+        {/if}
+        $(str).replaceAll("#embed");
+    }
+</script>
+</body>
+</html>

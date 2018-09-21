@@ -1,0 +1,91 @@
+{include file="page_header"}
+<div class="con">
+    <div class="goods-info user-order of-hidden ect-tab j-ect-tab ts-3" style="padding-top:0">
+
+        <div id="j-tab-con" class="tab-con margin-lr">
+            <div class="swiper-wrapper">
+                <section class="swiper-slide store_info">
+                       <script id="j-product" type="text/html">
+                      <%if bonus_list.tab !=''%>
+                        <%each bonus_list.tab as order%>
+                        <section class="dis-box user-coupont-box b-color-f m-top10">
+                            <div class="coupont-left">
+                                <span><%order.type_money%></span>
+                            </div>
+                            <div class="box-flex coupont-cont padding-all">
+                                <h4 class="coupont-cont-title ">[<%order.shop_name%>]</h4>
+                                 <h4 class="f-05 col-3 m-top04"><%order.type_name%></h4>
+                                 <div class="f-03 color-red m-top02">最低满<%order.min_goods_amount%>元</div>
+                                  <p class="f-01 col-9 m-top02"><%order.begintime%>-<%order.endtime%></p>
+                            </div>
+                            <div class="coupont-right padding-all">
+                                    <a href="#" class="ts-1active" bonus_id="<%order.type_id%>">
+                                        <span class="">领取</sapn>
+                                    </a>
+                            </div>
+                        </section>
+
+                        </ul>
+                         <%/each%>
+                        <%else%>
+                        <div class="no-div-message">
+                            <i class="iconfont icon-biaoqingleiben"></i>
+                            <p>亲，还没有红包哦～！</p>
+                        </div>
+                        <%/if%>
+                     </script>
+                     <input type="hidden" value="{$sessionid}" id="uid">
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+         <!--快捷导航-->
+    {include file="float_nav"}
+    {include file="float_nav_footer"}
+    <script type="text/javascript">
+        /*切换*/
+        var tabsSwiper = new Swiper('#j-tab-con', {
+            speed: 100,
+            noSwiping: true,
+            autoHeight: true,
+            onSlideChangeStart: function () {
+                $(".j-tab-title .active").removeClass('active')
+                $(".j-tab-title li").eq(tabsSwiper.activeIndex).addClass('active')
+            }
+        })
+        $(".j-tab-title li").on('touchstart mousedown', function (e) {
+            e.preventDefault()
+            $(".j-tab-title .active").removeClass('active')
+            $(this).addClass('active')
+            tabsSwiper.slideTo($(this).index())
+        })
+        $(".j-tab-title li").click(function (e) {
+            e.preventDefault()
+        })
+        //列表
+        var infinite = $('.store_info').infinite({url: "{url('bonus/Index/index')}", template: 'j-product', params: 'status={$status}'});
+        $("#j-tab-con").on("click", ".ts-1active", function () {
+            var id = $(this).attr('bonus_id');
+            $.get("{url('bonus/index/getbonus')}", {bonus_id: id}, function (info) {
+                if(info.error == '1'){
+                     layer.open({
+                            content: '还未登录，请登录之后领取',
+                            btn: ['确定', '取消'],
+                            shadeClose: false,
+                            yes: function() {
+                                window.location.href = ROOT_URL + "index.php?m=user&c=login";
+                            },
+                            no: function() {
+                            }
+                        });
+                };
+                if(info.error == '2'){
+                    d_messages(info.msg);
+                }
+            },'json');
+        });
+    </script>
+</body>
+
+</html>

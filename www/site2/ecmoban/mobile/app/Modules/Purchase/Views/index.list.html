@@ -1,0 +1,169 @@
+{include file="header"}
+
+<body>
+<div class="con mb-7">
+    <section class="shopping-list j-shopping-list">
+        <div class="shopping-menu j-shopping-menu">
+            <div class="dis-box b-color-f">
+                <nav style="cursor: grab;" class="shopping-list-nav box-flex swiper-container-horizontal">
+                    <ul class="swiper-wrapper">
+                        <!--  -->
+                        <li class="div3 swiper-slide  active swiper-slide-active" category="3">家有电器</li>
+                        <!--  -->
+                        <li class="div4 swiper-slide swiper-slide-next" category="4">手机、数码、通讯</li>
+                        <!--  -->
+                        <li class="div5 swiper-slide" category="5">电脑、办公</li>
+                        <!--  -->
+                        <li class="div6 swiper-slide" category="6">家居、家具、家装、厨具</li>
+                        <!--  -->
+                        <li class="div8 swiper-slide" category="8">男装、女装、内衣</li>
+                        <!--  -->
+                        <li class="div11 swiper-slide" category="11">鞋靴、箱包</li>
+                        <!--  -->
+                        <li class="div12 swiper-slide" category="12">钟表、奢饰品</li>
+                        <!--  -->
+                        <li class="div858 swiper-slide" category="858">个人化妆、清洁用品</li>
+                        <!--  -->
+                        <li class="div864 swiper-slide" category="864">母婴、玩具乐器</li>
+                        <!--  -->
+                        <li class="div863 swiper-slide" category="863">图书、音像、电子书</li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="who_list">
+        <div class="product-list j-product-list product-list-medium" data="1">
+            <ul>
+                <li>
+                    <div class="product-div">
+                        <a class="product-div-link" href="wholesale_goods.html"></a>
+                        <img class="product-list-img" src="__PUBLIC__/assets/purchase/img/category_top_13.png" />
+                        <div class="product-text">
+                            <h4>韩版2015冬装新款女装拼接羽绒服GW4509</h4>
+
+                            <p><span class="p-price"><em class=" t-first ">¥179.00</em><em class="f-02 col-7">/个</em></span></p>
+                            <div class="dis-box f-02 col-9"><span class="box-flex">起批量:<em class="color-red">10</em></span><span class="box-flex text-right">成交量:30</span></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="product-div">
+                        <a class="product-div-link" href="wholesale_goods.html"></a>
+                        <img class="product-list-img" src="__PUBLIC__/assets/purchase/img/category_top_14.png" />
+                        <div class="product-text">
+                            <h4>韩版15冬装新款女宽松连帽羽绒服DU5014樱</h4>
+                            <p><span class="p-price"><em class=" t-first ">¥19.00</em><em class="f-02 col-7">/个</em></span></p>
+                            <div class="dis-box f-02 col-9"><span class="box-flex">起批量:<em class="color-red">10</em></span><span class="box-flex text-right">成交量:30</span></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="product-div">
+                        <a class="product-div-link" href="wholesale_goods.html"></a>
+                        <img class="product-list-img" src="__PUBLIC__/assets/purchase/img/category_top_15.png" />
+                        <div class="product-text">
+                            <h4>韩版2015冬装新款女装拼接羽绒服GW4509</h4>
+
+                            <p><span class="p-price"><em class=" t-first ">¥179.00</em><em class="f-02 col-7">/个</em></span></p>
+                            <div class="dis-box f-02 col-9"><span class="box-flex">起批量:<em class="color-red">10</em></span><span class="box-flex text-right">成交量:30</span></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="product-div">
+                        <a class="product-div-link" href="wholesale_goods.html"></a>
+                        <img class="product-list-img" src="__PUBLIC__/assets/purchase/img/category_top_19.png" />
+                        <div class="product-text">
+                            <h4>韩版15冬装新款女宽松连帽羽绒服DU5014樱</h4>
+                            <p><span class="p-price"><em class=" t-first ">¥19.00</em><em class="f-02 col-7">/个</em></span></p>
+                            <div class="dis-box f-02 col-9"><span class="box-flex">起批量:<em class="color-red">10</em></span><span class="box-flex text-right">成交量:30</span></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+{include file="menu"}
+
+</body>
+<!--引用js-->
+<script type="text/javascript" src="__PUBLIC__/assets/purchase/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/assets/purchase/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/assets/purchase/js/swiper-3.2.5.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/assets/purchase/js/ectouch.js"></script>
+<script>
+    //店铺街分类
+    var page = $("input[name=page]").val();
+    var maxpage = $("input[name=maxpage]").val();
+    var now;
+    var fixed;
+    var sys;
+    var start;
+    var where = $("input[name=where]").val();
+    var wheretype = $("input[name=wheretype]").val();
+    var type = $("input[name=type]").val();
+    var active = 0;
+    var url = 'index.php?r=store/index/index';
+    if(type == 2) {
+        var infinite = $('.store_info').infinite({
+            url: url,
+            params: 'type=' + type + '&where=' + where + '&wheretype=' + wheretype,
+            template: 'j-product'
+        });
+        var swiper = new Swiper('.j-g-s-p-con', {
+            scrollbarHide: true,
+            slidesPerView: 'auto',
+            centeredSlides: false,
+            grabCursor: true
+        });
+    } else {
+        var infinite = $('.store_info').infinite({
+            url: url,
+            template: 'j-product'
+        });
+        var swiper = new Swiper('.j-g-s-p-con', {
+            scrollbarHide: true,
+            slidesPerView: 'auto',
+            centeredSlides: false,
+            grabCursor: true
+        });
+    }
+
+    var swiper_nav = new Swiper('.shopping-list-nav', {
+        scrollbarHide: true,
+        slidesPerView: 'auto',
+        centeredSlides: false,
+        grabCursor: true
+    });
+
+    $('.shopping-list-nav li').on('click', function(e) {
+        var category = $(this).attr('category');
+        var index = $(".shopping-list-nav li").index(this);
+        $(this).siblings().removeClass("active");
+        $('.shopping-abs .swiper-slide a').removeClass("active");
+
+        $(".div" + category).addClass("active");
+
+        swiper_nav.slideTo(index, 1000, false); //切换到第一个slide，速度为1秒
+
+        infinite.onload('where=' + category + '&type=1');
+        var swiper = new Swiper('.j-g-s-p-con', {
+            scrollbarHide: true,
+            slidesPerView: 'auto',
+            centeredSlides: false,
+            grabCursor: true
+
+        });
+    })
+
+    $('.shopping-abs .swiper-slide a').on('click', function(e) {
+        var index = $(".shopping-abs .swiper-slide a").index(this);
+        $('.shopping-list-nav li').eq(index).trigger('click');
+    });
+</script>
+
+</html>

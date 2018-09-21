@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+        <div class="title"><a href="user_msg.php?act=list_all" class="s-back">{$lang.back}</a>{$ur_here}</div>
+        <div class="content">
+            <div class="flexilist">
+            	<div class="common-content">
+                	<div class="mian-info">
+						<form method="post" action="user_msg.php?act=insert" name="theForm"  onsubmit="return validate()">
+							<div class="item">
+								<div class="label">{$lang.msg_title}：</div>
+								<div class="label_value">
+									<input name="msg_title" id="msg_title" type="text" value="{$msg.reply_email}" class="text" />
+								</div>
+							</div>
+							<div class="item">
+								<div class="label">{$lang.msg_content}：</div>
+								<div class="label_value">
+									<textarea name="msg_content" cols="50" rows="4" wrap="VIRTUAL" id="msg_content" class="textarea">{$msg.reply_content}</textarea>
+								</div>
+							</div>
+							<div class="item">
+								<div class="label">&nbsp;</div>
+								<div class="label_value">
+									<input type="hidden" name="order_id" value="{$order_id}" />
+									<input type="hidden" name="user_id" value="{$user_id}" />
+									<input name="Submit" value="{$lang.button_submit}" type="submit" class="button" />
+								</div>
+							</div>
+						</form>
+                   </div>
+                </div>
+            </div>
+		</div>
+	</div>   
+	{include file ='library/pagefooter.lbi'}
+</body>
+</html>
