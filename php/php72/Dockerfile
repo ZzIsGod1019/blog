@@ -112,17 +112,17 @@ RUN apt-get update
 RUN pecl install redis-3.1.4 \
     && docker-php-ext-enable redis
 
-RUN pecl install xdebug-2.6.0alpha1 \
-    && docker-php-ext-enable xdebug \
-    && :\
+# RUN pecl install xdebug-2.6.0alpha1 \
+#     && docker-php-ext-enable xdebug \
+#     && :\
 #    && apt-get install -y libmagickwand-dev \
 #    && pecl install imagick-3.4.3 \
 #    && docker-php-ext-enable imagick \
 #    && :\
-    && apt-get install -y libmemcached-dev zlib1g-dev \
+RUN apt-get install -y libmemcached-dev zlib1g-dev \
     && pecl install memcached\
     && docker-php-ext-enable memcached
 
 
-RUN pecl install swoole-2.1.1 \
+RUN pecl install swoole-4.4.0 \
     && docker-php-ext-enable swoole
