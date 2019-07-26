@@ -4,7 +4,7 @@ $server = new Swoole\WebSocket\Server("0.0.0.0", 8000);
 
 // 建立连接时触发
 $server->on('open', function (Swoole\WebSocket\Server $server, $request) {
-    echo "server: handshake success with fd{$request->fd}\n";
+    echo "server: handshake success with fd{$request->fd}\n";    
 });
 
 // 收到消息时触发推送
